@@ -25,7 +25,11 @@ function getRandomInt() {
 
 // Read file for lover/hate counter
 function updateFile(message, name, incrementType) {
+
+    // Counter start at 0
     var counter = 0;
+
+    // File paths for the files
     var filePath = 'RoleInts/' + name + '.txt';
     console.log('Fail here ' + incrementType);
     try {
@@ -39,11 +43,11 @@ function updateFile(message, name, incrementType) {
     if (incrementType === 'a') {
         console.log(message.author.username);
         if (message.author.username.toLowerCase().includes(name)) {
-            counter--; // A little hacky but works.
             message.channel.sendMessage('How sad, this is the only way you can get points...');
+        } else {
+            counter++;
+            message.channel.sendMessage(name + '\'s sexy meter: ' + counter + '');
         }
-        counter++;
-        message.channel.sendMessage(name + '\'s sexy meter: ' + counter + '');
     }
 
     else if (incrementType === 's') {
@@ -73,8 +77,9 @@ bot.on('ready', () => {
 // create an event listener for messages
 bot.on('message', message => {
 
-    // if the message is "ping",
+    // Get the message in lower case
     var input = message.content.toLowerCase();
+    // Split the text by space token into an array
     var inputArray = input.split(' ');
 
     // Help Commands
@@ -84,23 +89,28 @@ bot.on('message', message => {
         message.channel.sendMessage('\t\t Unless you hate them. \'!hate charlie\' or \'!fuck charlie\' \n');
     }
 
+    // !love increase love counter by one
     else if (inputArray[0].includes('!love')) {
         console.log(inputArray[1]);
         updateFile(message, inputArray[1], 'a');
     }
 
+    // !hate decrease love counter by one
     else if (inputArray[0].includes('!hate')) {
         updateFile(message, inputArray[1], 's');
     }
 
+    // !fuck decrease love counter by two
     else if (inputArray[0].includes('!fuck')) {
         updateFile(message, inputArray[1], '2s');
     }
 
-    else if (input.includes('dank meme')) {
+    // !dank give me a dank meme
+    else if (inputArray[0].includes('!dank')) {
         message.channel.sendMessage("", { file: "DankMemes/" + getRandomInt() + ".jpg" });
     }
 
+    // get your avatar
     else if (message.content.toLowerCase() === 'what is my avatar') {
         // send the user's avatar URL
         message.reply(message.author.avatarURL);
