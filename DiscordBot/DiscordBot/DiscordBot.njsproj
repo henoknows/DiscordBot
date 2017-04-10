@@ -29,8 +29,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="app.js" />
+    <Content Include="DankMemes\1.jpg" />
+    <Content Include="DankMemes\2.jpg" />
+    <Content Include="DankMemes\3.jpg" />
     <Content Include="package.json" />
     <Content Include="README.md" />
+    <Content Include="RoleInts\charlie.txt">
+      <SubType>Code</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DankMemes\" />
+    <Folder Include="RoleInts\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
