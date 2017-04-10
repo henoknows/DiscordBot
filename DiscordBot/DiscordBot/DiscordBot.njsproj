@@ -37,6 +37,12 @@
     <Content Include="RoleInts\charlie.txt">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="RoleInts\kenneth.txt" />
+    <Content Include="RoleInts\lighttricks.txt" />
+    <Content Include="RoleInts\peyton.txt" />
+    <Content Include="RoleInts\risky.txt" />
+    <Content Include="RoleInts\seth.txt" />
+    <Content Include="RoleInts\zioep.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DankMemes\" />
