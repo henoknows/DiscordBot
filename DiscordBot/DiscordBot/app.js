@@ -137,7 +137,7 @@ bot.on('message', message => {
 
     // !fuck decrease love counter by two
     else if (inputArray[0].includes('!sex')) {
-        updateFile(message, inputArray[1], '2s');
+        updateFile(message, inputArray[1], '2a');
     }
 
     // !dank give me a dank meme
