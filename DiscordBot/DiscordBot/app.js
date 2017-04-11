@@ -8,6 +8,10 @@ const Discord = require('discord.js');
 // import filesystem api
 const fs = require('fs');
 
+//variables for deciding picture to reply with
+var memeType = '';
+var file = { attachment: '', name: '' };
+
 // create an instance of a Discord Client, and call it bot
 const bot = new Discord.Client();
 
@@ -17,6 +21,7 @@ const token = '';
 // Number of images in 'DankMemes'
 var dankMemesNum = 3;
 var min = 1;
+var meme = 0;
 
 // Generate a random number for dank meme user
 function getRandomInt() {
@@ -43,7 +48,7 @@ function updateFile(message, name, incrementType) {
     if (incrementType === 'a') {
         console.log(message.author.username);
         if (message.author.username.toLowerCase().includes(name)) {
-            message.channel.sendMessage('How sad, this is the only way you can get points...');
+            message.channel.sendMessage('How sad, this is the only way you can get points ...');
         } else {
             counter++;
             message.channel.sendMessage(name + '\'s sexy meter: ' + counter + '');
@@ -67,6 +72,20 @@ function updateFile(message, name, incrementType) {
     });
 }
 
+
+function postPicture(memeType) {
+    if (memeType==='pokemon') {
+        message.channel.sendMessage(("", { file: "DankMemes/1.jpg" }));
+    }
+
+    else if (memeType === 'money') {
+        message.channel.sendMessage(("", { file: "DankMemes/3.jpg" }));
+    }
+
+    else if (memeType === 'gf') {
+        message.channel.sendMessage(("", { file: "DankMemes/2.jpg" }));
+    }
+}
 
 // the ready event is vital, it means that your bot will only start reacting to information
 // from Discord _after_ ready is emitted.
@@ -114,6 +133,26 @@ bot.on('message', message => {
     else if (message.content.toLowerCase() === 'what is my avatar') {
         // send the user's avatar URL
         message.reply(message.author.avatarURL);
+    }
+
+    else if (message.content.toLowerCase().includes('meme') && !message.author.bot) {
+        meme++;
+        message.channel.sendMessage('I bet you got that off of EbaumsWorld...\nA dank meme has been used ' + meme +' times.') 
+    }
+
+    else if (message.content.toLowerCase().includes('pokemon')) {
+        memeType = 'pokemon';
+        postPicture(memeType);
+    }
+
+    else if (message.content.toLowerCase().includes('girlfriend') || message.content.toLowerCase().includes('gf')) {
+        memeType = 'gf';
+        postPicture(memeType);
+    }
+
+    else if (message.content.toLowerCase().includes('money') || message.content.toLowerCase().includes('dollar')) {
+        memeType = 'money';
+        postPicture(memeType);
     }
 });
 
