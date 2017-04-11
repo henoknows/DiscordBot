@@ -16,7 +16,7 @@ var file = { attachment: '', name: '' };
 const bot = new Discord.Client();
 
 // the token of your bot - https://discordapp.com/developers/applications/me
-const token = '';
+const token = 'Mjk5NzA3OTQyNzM4MDY3NDU3.C8h0Xg.Fuab4gVrwWhB3eif4uZFx2-gW68';
 
 // Number of images in 'DankMemes'
 var dankMemesNum = 3;
@@ -52,6 +52,16 @@ function updateFile(message, name, incrementType) {
         } else {
             counter++;
             message.channel.sendMessage(name + '\'s sexy meter: ' + counter + '');
+        }
+    }
+    //added this new conditional
+    else if (incrementType === '2a') {
+        console.log(message.author.username);
+        if (message.author.username.toLowerCase().includes(name)) {
+            message.channel.sendMessage('How sad, this is the only way you can get points ...');
+        } else {
+            counter+=2;
+            message.channel.sendMessage('That\'s hot... '+name + '\'s sexy meter: ' + counter + '');
         }
     }
 
@@ -119,8 +129,14 @@ bot.on('message', message => {
         updateFile(message, inputArray[1], 's');
     }
 
+    //!sex increase counter by 2
+    else if (inputArray[0].includes('!love')) {
+        console.log(inputArray[1]);
+        updateFile(message, inputArray[1], '2a');
+    }
+
     // !fuck decrease love counter by two
-    else if (inputArray[0].includes('!fuck')) {
+    else if (inputArray[0].includes('!sex')) {
         updateFile(message, inputArray[1], '2s');
     }
 
