@@ -16,7 +16,7 @@ var file = { attachment: '', name: '' };
 const bot = new Discord.Client();
 
 // the token of your bot - https://discordapp.com/developers/applications/me
-const token = 'Mjk5NzA3OTQyNzM4MDY3NDU3.C8h0Xg.Fuab4gVrwWhB3eif4uZFx2-gW68';
+const token = '';
 
 // Number of images in 'DankMemes'
 var dankMemesNum = 3;
