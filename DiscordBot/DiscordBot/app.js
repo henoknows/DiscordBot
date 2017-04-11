@@ -73,7 +73,7 @@ function updateFile(message, name, incrementType) {
 }
 
 
-function postPicture(memeType) {
+function postPicture(message,memeType) {
     if (memeType==='pokemon') {
         message.channel.sendMessage(("", { file: "DankMemes/1.jpg" }));
     }
@@ -142,17 +142,17 @@ bot.on('message', message => {
 
     else if (message.content.toLowerCase().includes('pokemon')) {
         memeType = 'pokemon';
-        postPicture(memeType);
+        postPicture(message,memeType);
     }
 
     else if (message.content.toLowerCase().includes('girlfriend') || message.content.toLowerCase().includes('gf')) {
         memeType = 'gf';
-        postPicture(memeType);
+        postPicture(message,memeType);
     }
 
     else if (message.content.toLowerCase().includes('money') || message.content.toLowerCase().includes('dollar')) {
         memeType = 'money';
-        postPicture(memeType);
+        postPicture(,message,memeType);
     }
 });
 
