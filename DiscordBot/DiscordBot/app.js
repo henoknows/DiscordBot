@@ -60,9 +60,9 @@ function updateFile(message, name, incrementType) {
         if (message.author.username.toLowerCase().includes(name)) {
             message.channel.sendMessage('How sad, this is the only way you can get points ...');
         } else {
-            counter += 2;
-            console.log('Ran once');
-            message.channel.sendMessage('That\'s hot... '+name + '\'s sexy meter: ' + counter + '');
+            counter++;
+            counter++;
+            message.channel.sendMessage(name + '\'s sexy meter: ' + counter + '');
         }
     }
 
@@ -115,7 +115,7 @@ bot.on('message', message => {
     // Help Commands
     if (message.content.toLowerCase() === '!help') {
         message.channel.sendMessage('Hello! I have the following commands available \n');
-        message.channel.sendMessage('\t Contribute to someone\'s harem with \'!love [name]\'');
+        message.channel.sendMessage('\t Contribute to someone\'s harem with \'!love [name]\' or with \'!makelove [name]\'');
         message.channel.sendMessage('\t\t Unless you hate them. \'!hate charlie\' or \'!fuck charlie\' \n');
     }
 
@@ -131,7 +131,7 @@ bot.on('message', message => {
     }
 
     //!sex increase counter by 2
-    else if (inputArray[0].includes('!sex') && !message.author.bot) {
+    else if (inputArray[0].includes('!makelove') && !message.author.bot) {
         console.log(inputArray[1]);
         updateFile(message, inputArray[1], '2a');
     }
