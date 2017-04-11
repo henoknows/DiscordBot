@@ -152,7 +152,7 @@ bot.on('message', message => {
 
     else if (message.content.toLowerCase().includes('money') || message.content.toLowerCase().includes('dollar')) {
         memeType = 'money';
-        postPicture(,message,memeType);
+        postPicture(message,memeType);
     }
 });
 
