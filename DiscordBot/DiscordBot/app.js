@@ -60,7 +60,8 @@ function updateFile(message, name, incrementType) {
         if (message.author.username.toLowerCase().includes(name)) {
             message.channel.sendMessage('How sad, this is the only way you can get points ...');
         } else {
-            counter+=2;
+            counter += 2;
+            console.log('Ran once');
             message.channel.sendMessage('That\'s hot... '+name + '\'s sexy meter: ' + counter + '');
         }
     }
@@ -130,12 +131,12 @@ bot.on('message', message => {
     }
 
     //!sex increase counter by 2
-    else if (inputArray[0].includes('!sex')) {
+    else if (inputArray[0].includes('!sex') && !message.author.bot) {
         console.log(inputArray[1]);
         updateFile(message, inputArray[1], '2a');
     }
 
-    // !fuck decrease love counter by two
+    // !fuck decrease counter by two
     else if (inputArray[0].includes('!fuck')) {
         updateFile(message, inputArray[1], '2s');
     }
