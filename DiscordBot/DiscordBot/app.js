@@ -1,5 +1,6 @@
 /*
  A crappy implementation of a discord bot
+
 */
 
 // import the discord.js module
@@ -15,13 +16,27 @@ var file = { attachment: '', name: '' };
 // create an instance of a Discord Client, and call it bot
 const bot = new Discord.Client();
 
+//added this npm based on an example of voice connection implementation at this link: https://gist.github.com/meew0/cc4027f17b957fcccb1a
+const request = require('superagent');
+
+//directory for sounds it will play
+var sounddir = '/sounds/';
+
 // the token of your bot - https://discordapp.com/developers/applications/me
 const token = '';
 
-// Number of images in 'DankMemes'
+// Number of images in 'DankMemes' and other variables
 var dankMemesNum = 3;
 var min = 1;
 var meme = 0;
+
+//variables needed for voice connection
+var authorID;
+var currentUsers;
+var userCurChannel;
+
+//voice connection
+//bot.voiceConnections.
 
 // Generate a random number for dank meme user
 function getRandomInt() {
@@ -104,6 +119,10 @@ bot.on('ready', () => {
     console.log('I am ready!');
 });
 
+// Debug and warning handlers, these log debug messages and warnings to console ** COPY AND PASTED FROM URL **
+bot.on("debug", (m) => console.log("[debug]", m));
+bot.on("warn", (m) => console.log("[warn]", m));
+
 // create an event listener for messages
 bot.on('message', message => {
 
@@ -118,7 +137,30 @@ bot.on('message', message => {
         message.channel.sendMessage('\t Contribute to someone\'s harem with \'!love [name]\' or with \'!makelove [name]\'');
         message.channel.sendMessage('\t\t Unless you hate them. \'!hate charlie\' or \'!fuck charlie\' \n');
     }
-
+    /*
+    //this will be the condition statement that will be entered to play sounds and establish the voice connection
+    if (inputArray[0].includes('!play')) {
+        //username of the authoer of the message
+        authorID = message.author.username;
+        //what I want to do is iterate over all channels of the discord server (even text). The example I provided above
+        //in a comment utilizes the statement message.channel.server.channels, but I get a run-time error
+        //whenever I try to do !play, hanging up at the channel.server channels
+        for (var channel of ) {
+            // If the channel is a voice channel, ...
+            if (channel instanceof Discord.VoiceChannel) {
+                //grab all the current users in that channel and then split them into an array using space delimiter
+                currentUsers = channel.members.split(" ");
+                //scan through the array for the user that posted the message
+                for (var i = 0; i < currentUsers.length; i++) {
+                    //if the username at the current index is equal to the user that posted the message
+                    if (currentUsers[i] === authorID) {
+                        bot.reply("hello I am working")
+                    }
+                }
+            }
+        }
+    }
+    */
     // !love increase love counter by one
     else if (inputArray[0].includes('!love')) {
         console.log(inputArray[1]);
@@ -154,7 +196,7 @@ bot.on('message', message => {
 
     else if (message.content.toLowerCase().includes('meme') && !message.author.bot) {
         meme++;
-        message.channel.sendMessage('I bet you got that off of EbaumsWorld...\nA dank meme has been used ' + meme +' times.') 
+        message.channel.sendMessage('I bet you got that off of EbaumsWorld...\nA dank meme has been used ' + meme +' times.'); 
     }
 
     else if (message.content.toLowerCase().includes('pokemon')) {
@@ -172,6 +214,8 @@ bot.on('message', message => {
         postPicture(message,memeType);
     }
 });
+
+
 
 
 // log our bot in
