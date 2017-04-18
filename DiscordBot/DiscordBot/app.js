@@ -143,8 +143,8 @@ bot.on('message', message => {
         //username of the authoer of the message
         authorID = message.author.username;
         //what I want to do is iterate over all channels of the discord server (even text). The example I provided above
-        //in a comment utilizes the statement message.channel.server.channels, but I get a run-time error
-        //whenever I try to do !play, hanging up at the channel.server channels
+        //in a comment utilizes the statement (var channel of channel.server.channels), but I get a run-time error
+        //whenever I try to do !play, which points at "server.channels". Not too sure how to access the channel attribute
         for (var channel of ) {
             // If the channel is a voice channel, ...
             if (channel instanceof Discord.VoiceChannel) {
@@ -154,7 +154,7 @@ bot.on('message', message => {
                 for (var i = 0; i < currentUsers.length; i++) {
                     //if the username at the current index is equal to the user that posted the message
                     if (currentUsers[i] === authorID) {
-                        bot.reply("hello I am working")
+                        message.channel.sendMessage('I am working breh!');
                     }
                 }
             }
