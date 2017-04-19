@@ -1,4 +1,5 @@
 /*
+
  A crappy implementation of a discord bot
 
 */
@@ -25,20 +26,21 @@ var sounddir = '/sounds/';
 // the token of your bot - https://discordapp.com/developers/applications/me
 const token = '';
 
+// log our bot in
+bot.login(token);
+
 // Number of images in 'DankMemes' and other variables
 var dankMemesNum = 3;
 var min = 1;
 var meme = 0;
 
 //variables needed for voice connection
-var authorID;
+var authorID='';
+var curChannel;
 var currentUsers;
 var userCurChannel;
 
-//voice connection
-//bot.voiceConnections.
-
-// Generate a random number for dank meme user
+//gets a random integer
 function getRandomInt() {
     return Math.floor(Math.random() * (dankMemesNum - min)) + min;
 }
@@ -138,29 +140,32 @@ bot.on('message', message => {
         message.channel.sendMessage('\t\t Unless you hate them. \'!hate charlie\' or \'!fuck charlie\' \n');
     }
     /*
+        when this conditional gets commented out the bot authenticates and connects, but when it is implemented the bot doesn't do anything
+        according to the console. Additionally, I would like to eventually move this to a seperate function. 
+    */
+
     //this will be the condition statement that will be entered to play sounds and establish the voice connection
     if (inputArray[0].includes('!play')) {
         //username of the authoer of the message
         authorID = message.author.username;
-        //what I want to do is iterate over all channels of the discord server (even text). The example I provided above
-        //in a comment utilizes the statement (var channel of channel.server.channels), but I get a run-time error
-        //whenever I try to do !play, which points at "server.channels". Not too sure how to access the channel attribute
-        for (var channel of ) {
-            // If the channel is a voice channel, ...
-            if (channel instanceof Discord.VoiceChannel) {
-                //grab all the current users in that channel and then split them into an array using space delimiter
+        //iterates over all channels in the current server (tested 4/18/17 and worked)
+        for (var channel of bot.channels) {
+            //bot.channels returns a collection of <string,Channel>, so we grab the actual channel object from the collection, so we can grab the type it is
+            curChannel = channel[1];
+            // If the channel is a voice channel
+            if (curChannel.type === 'voice') {
+                //grab all the current users in that channel and then split them into an array using space as a delimiter
                 currentUsers = channel.members.split(" ");
-                //scan through the array for the user that posted the message
-                for (var i = 0; i < currentUsers.length; i++) {
-                    //if the username at the current index is equal to the user that posted the message
-                    if (currentUsers[i] === authorID) {
-                        message.channel.sendMessage('I am working breh!');
-                    }
+                console.log("We made it this far! Current users have been split!");
+                //if the array of the users in the current channel contains the original author
+                if (currenUsers.indexOf(authorID) > -1) {
+                    //end of my progress, this is for testing purposes.
+                    message.channel.sendMessage('Aye yo');
                 }
+               
             }
         }
     }
-    */
     // !love increase love counter by one
     else if (inputArray[0].includes('!love')) {
         console.log(inputArray[1]);
@@ -218,5 +223,3 @@ bot.on('message', message => {
 
 
 
-// log our bot in
-bot.login(token);
