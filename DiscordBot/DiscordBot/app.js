@@ -33,12 +33,11 @@ var min = 1;
 var meme = 0;
 
 //variables needed for voice connection handling
-var authorID='';
+
 var curChannel;
 var currentUsers;
 var voiceUser;
 var userCurChannel;
-var authorFound;
 
 //gets a random integer
 function getRandomInt() {
@@ -117,29 +116,40 @@ function postPicture(message,memeType) {
 
 //grabs the channel of the author who sent the last message
 function authorChannel(message) {
+    var authorID = '';
+    var chanHolder;
     //username of the authoer of the message
     authorID = message.author.id;
+    var authorUser = message.author.username;
+    var authorFound = false;
     //iterates over all channels in the current server (tested 4/18/17 and worked)
-    for (var channel of bot.channels) {
-        console.log('CHANNELS HAVE BEEN PULLED');
-        //bot.channels returns a collection of <string,Channel>, so we grab the actual channel object from the collection, so we can grab the type it is
-        curChannel = channel[1];
+    for (var [chanID, curChannel] of bot.channels) {
+        console.log('Current checking channel: ' + curChannel);
         // If the channel is a voice channel
         if (curChannel.type === 'voice') {
             //curChannel.members returns a collection, so we do var [variable for id, variable for guildMem]
             for (var [curUserID, guildMem] of curChannel.members) {
                 //debugging purposes
-                console.log('Curruent user has been found ' + curUserID + ' and it voiceUser is: ' + guildMem);
+                console.log('Curruent user has been found ID: ' + curUserID + ' and object object is: ' + guildMem);
                 //if the array of the users in the current channel contains the original author
                 if (curUserID === authorID) {
+                    console.log('Author ID: ' + authorID + ' matches this user id: ' + curUserID + ', a match has been found in channel ' + curChannel+'.');
+                    chanHolder = curChannel;
                     authorFound = true;
-                    //end of my progress, this is for testing purposes.
-                    message.channel.sendMessage('Aye yo I FUCKING DID IT -- voice connection will be handeled at this point');
+                    estVoice(curChannel);
+                    message.channel.sendMessage('In process of establishing voice connection');
+                    //end of my progress, this is for testing purposes. 
                 }
             }
         }
-
     }
+    if (authorFound == false) {
+        message.reply(' please connect to a voice channel first!');
+    }
+}
+
+function estVoice(curChannel) {
+
 }
 
 // the ready event is vital, it means that your bot will only start reacting to information
