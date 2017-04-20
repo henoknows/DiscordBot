@@ -134,7 +134,7 @@ function authorChannel(message) {
                 if (curUserID === authorID) {
                     authorFound = true;
                     //end of my progress, this is for testing purposes.
-                    message.channel.sendMessage('Aye yo I FUCKING DID IT -- voice connection will be handeled at this point'+);
+                    message.channel.sendMessage('Aye yo I FUCKING DID IT -- voice connection will be handeled at this point');
                 }
             }
         }
