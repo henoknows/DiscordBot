@@ -26,19 +26,19 @@ var sounddir = '/sounds/';
 // the token of your bot - https://discordapp.com/developers/applications/me
 const token = '';
 
-// log our bot in
-bot.login(token);
 
 // Number of images in 'DankMemes' and other variables
 var dankMemesNum = 3;
 var min = 1;
 var meme = 0;
 
-//variables needed for voice connection
+//variables needed for voice connection handling
 var authorID='';
 var curChannel;
 var currentUsers;
+var voiceUser;
 var userCurChannel;
+var authorFound;
 
 //gets a random integer
 function getRandomInt() {
@@ -100,7 +100,7 @@ function updateFile(message, name, incrementType) {
     });
 }
 
-
+//posts the picture to the chat
 function postPicture(message,memeType) {
     if (memeType==='pokemon') {
         message.channel.sendMessage(("", { file: "DankMemes/1.jpg" }));
@@ -112,6 +112,33 @@ function postPicture(message,memeType) {
 
     else if (memeType === 'gf') {
         message.channel.sendMessage(("", { file: "DankMemes/2.jpg" }));
+    }
+}
+
+//grabs the channel of the author who sent the last message
+function authorChannel(message) {
+    //username of the authoer of the message
+    authorID = message.author.id;
+    //iterates over all channels in the current server (tested 4/18/17 and worked)
+    for (var channel of bot.channels) {
+        console.log('CHANNELS HAVE BEEN PULLED');
+        //bot.channels returns a collection of <string,Channel>, so we grab the actual channel object from the collection, so we can grab the type it is
+        curChannel = channel[1];
+        // If the channel is a voice channel
+        if (curChannel.type === 'voice') {
+            //curChannel.members returns a collection, so we do var [variable for id, variable for guildMem]
+            for (var [curUserID, guildMem] of curChannel.members) {
+                //debugging purposes
+                console.log('Curruent user has been found ' + curUserID + ' and it voiceUser is: ' + guildMem);
+                //if the array of the users in the current channel contains the original author
+                if (curUserID === authorID) {
+                    authorFound = true;
+                    //end of my progress, this is for testing purposes.
+                    message.channel.sendMessage('Aye yo I FUCKING DID IT -- voice connection will be handeled at this point'+);
+                }
+            }
+        }
+
     }
 }
 
@@ -144,28 +171,11 @@ bot.on('message', message => {
         according to the console. Additionally, I would like to eventually move this to a seperate function. 
     */
 
-    //this will be the condition statement that will be entered to play sounds and establish the voice connection
+    //this will be the condition statement that will be entered to play sounds and establish the voice connection in the channel the author of the message is in
     if (inputArray[0].includes('!play')) {
-        //username of the authoer of the message
-        authorID = message.author.username;
-        //iterates over all channels in the current server (tested 4/18/17 and worked)
-        for (var channel of bot.channels) {
-            //bot.channels returns a collection of <string,Channel>, so we grab the actual channel object from the collection, so we can grab the type it is
-            curChannel = channel[1];
-            // If the channel is a voice channel
-            if (curChannel.type === 'voice') {
-                //grab all the current users in that channel and then split them into an array using space as a delimiter
-                currentUsers = channel.members.split(" ");
-                console.log("We made it this far! Current users have been split!");
-                //if the array of the users in the current channel contains the original author
-                if (currenUsers.indexOf(authorID) > -1) {
-                    //end of my progress, this is for testing purposes.
-                    message.channel.sendMessage('Aye yo');
-                }
-               
-            }
-        }
+        authorChannel(message);
     }
+
     // !love increase love counter by one
     else if (inputArray[0].includes('!love')) {
         console.log(inputArray[1]);
@@ -221,5 +231,7 @@ bot.on('message', message => {
 });
 
 
+// log our bot in
+bot.login(token);
 
 
