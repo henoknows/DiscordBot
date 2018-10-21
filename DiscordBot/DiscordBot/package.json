@@ -7,7 +7,9 @@
     "name": "Seth"
   },
   "dependencies": {
-    "discord.js": "^11.0.0",
-    "superagent": "^3.5.2"
+    "discord.io": "^2.5.3",
+    "discord.js": "^11.4.2",
+    "superagent": "^3.5.2",
+    "winston": "^3.1.0"
   }
 }
