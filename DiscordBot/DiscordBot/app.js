@@ -53,7 +53,8 @@ bot.on('message', message => {
     // tts Commands
     if (command === 'tts') {
         message.channel.send(args, {
-            tts: true
+            tts: true,
+            split: true
         });
     }
 });
