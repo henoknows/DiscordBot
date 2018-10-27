@@ -9,9 +9,6 @@ const Discord = require('discord.js');
 const logger = require('winston');
 const auth = require('./auth.json');
 
-// import filesystem api
-const fs = require('fs');
-
 // create an instance of a Discord Client, and call it bot
 const bot = new Discord.Client();
 
@@ -36,10 +33,7 @@ bot.on('message', message => {
     var argsArray = message.content.slice(prefix.length).trim().split(" ");
     const command = argsArray.shift().toLowerCase();
     var args = argsArray.join(" ");
-
-
-    console.log("Command: " + command);
-    console.log("args: " + args);
+    console.log("id:" + message.author.id);
 
     if (command === 'ping') {
         message.channel.send('pong');
@@ -52,12 +46,61 @@ bot.on('message', message => {
 
     // tts Commands
     if (command === 'tts') {
-        message.channel.send(args, {
-            tts: true,
-            split: true
+        for (var i = 0; i < args.length; i += 150) {
+            var newString = args.substring(i, i + 150);
+            message.channel.send(newString, {
+                tts: true,
+                split: true
+            });
+        }
+    }
+
+    if (command === "join") {
+        message.member.voiceChannel.join().then(()=>{
+            msg.reply("Joined!");
+        }).catch((ex)=>{
+            msg.reply("Failed to join! " + ex);
+        });;
+    }
+
+    if (command === "leave") {
+        message.member.voiceChannel.leave();
+    }
+
+    if (command === "quote") {
+        message.channel.fetchMessages({
+            "limit": 100
+        }).then(messages => {
+            const averyMessages = messages.filter(msg => (msg.author.id == 112303879030403072));
+            messagesLength = averyMessages.array().length; // number of messages deleted
+
+            // Logging the number of messages deleted on both the channel and console.
+            console.log('Deletion of messages successful. Total messages deleted: ' + messagesLength);
+            message.channel.send(averyMessages.array()[0], {});
+        }).catch(err => {
+            console.log('Error while doing Bulk Delete');
+            console.log(err);
+        });
+    }
+
+    if (command === 'cleanup') {
+        message.channel.fetchMessages().then(messages => {
+            const botMessages = messages.filter(msg => msg.author.bot);
+            message.channel.bulkDelete(botMessages)
+            .then(() => {
+                // Logging the number of messages deleted on both the channel and console.
+                messagesDeleted = botMessages.array().length; // number of messages deleted
+                console.log('Deletion of messages successful. Total messages deleted: ' + messagesDeleted)
+            })
+            .catch(console.error);
+
+        }).catch(err => {
+            console.log('Error while doing Bulk Delete');
+            console.log(err);
         });
     }
 });
+
 
 console.log("Logging in with: " + auth.token);
 bot.login(auth.token);
