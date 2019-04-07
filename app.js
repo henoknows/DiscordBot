@@ -39,6 +39,11 @@ bot.on('message', message => {
         message.channel.send('pong');
     }
 
+    if (command === 'r6') {
+        message.channel.send(ttsTalker());
+        message.channel.send('!cleanup')
+    }
+
     // Help Commands
     if (command === 'hey') {
         message.channel.send('aYyYyyYY BOIIIIII \n');
@@ -100,6 +105,14 @@ bot.on('message', message => {
         });
     }
 });
+
+
+function ttsTalker(){
+    var montagneMessage = ['/tts its a mi montagne','/tts my montagne is a charging','/tts mama mia meatball montagne'];
+    var rand = Math.floor((Math.random() * 3))
+    console.log(rand);
+    return montagneMessage[rand];
+}
 
 
 console.log("Logging in with: " + auth.token);
