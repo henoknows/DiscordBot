@@ -8,9 +8,13 @@
 const Discord = require('discord.js');
 const logger = require('winston');
 const auth = require('./auth.json');
+const opus = require('node-opus');
+const opusscript = require('opusscript');
 
 // create an instance of a Discord Client, and call it bot
 const bot = new Discord.Client();
+
+var conn = null;
 
 // command prefix
 var prefix = "!";
@@ -39,13 +43,9 @@ bot.on('message', message => {
         message.channel.send('pong');
     }
 
-    // Help Commands
-    if (command === 'hey') {
-        message.channel.send('aYyYyyYY BOIIIIII \n');
-    }
-
     // tts Commands
     if (command === 'tts') {
+        message.delete();
         for (var i = 0; i < args.length; i += 150) {
             var newString = args.substring(i, i + 150);
             message.channel.send(newString, {
@@ -56,31 +56,47 @@ bot.on('message', message => {
     }
 
     if (command === "join") {
-        message.member.voiceChannel.join().then(()=>{
-            msg.reply("Joined!");
+        message.delete();
+        var voiceChannel = message.member.voiceChannel;
+        voiceChannel.join()
+        .then(connection => {
+            const dispatcher = connection.playFile('./voiceClips/heyGuys.mp3', {volume: 1.0});
+            dispatcher.on("end", end => console.log("Completed playmp3"));
         }).catch((ex)=>{
-            msg.reply("Failed to join! " + ex);
+            console.log("Failed to join! " + ex);
         });;
     }
 
-    if (command === "leave") {
-        message.member.voiceChannel.leave();
+    if (command === "burp") {
+        message.delete();
+        var botRef = bot;
+        if(botRef.voiceConnections.has(message.guild.id)) {
+            var connection = botRef.voiceConnections.get(message.guild.id)
+            var dispatcher = connection.playFile('./voiceClips/burp.mp3', {volume: 9.0});
+        }
     }
 
-    if (command === "quote") {
-        message.channel.fetchMessages({
-            "limit": 100
-        }).then(messages => {
-            const averyMessages = messages.filter(msg => (msg.author.id == 112303879030403072));
-            messagesLength = averyMessages.array().length; // number of messages deleted
+    if (command === "ihu") {
+        message.delete();
+        var botRef = bot;
+        if(botRef.voiceConnections.has(message.guild.id)) {
+            var connection = botRef.voiceConnections.get(message.guild.id)
+            var dispatcher = connection.playFile('./voiceClips/ihu.mp3', {volume: 3.0});
+        }
+    }
 
-            // Logging the number of messages deleted on both the channel and console.
-            console.log('Deletion of messages successful. Total messages deleted: ' + messagesLength);
-            message.channel.send(averyMessages.array()[0], {});
-        }).catch(err => {
-            console.log('Error while doing Bulk Delete');
-            console.log(err);
-        });
+    if (command === "mmm") {
+        message.delete();
+        var botRef = bot;
+        if(botRef.voiceConnections.has(message.guild.id)) {
+            var connection = botRef.voiceConnections.get(message.guild.id)
+            var dispatcher = connection.playFile('./voiceClips/holyCrap.mp3', {volume: 1.0});
+        }
+    }
+
+    if (command === "leave") {
+        message.delete();
+        message.member.voiceChannel.leave();
     }
 
     if (command === 'cleanup') {
